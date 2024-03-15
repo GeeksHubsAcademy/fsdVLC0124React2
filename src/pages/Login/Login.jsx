@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
+import { decodeToken } from "react-jwt";
 import { CustomInput } from "../../common/CustomInput/CustomInput";
 
 import "./Login.css";
+import { loginMe } from "../../services/apiCalls";
 
 export const Login = () => {
   const [credenciales, setCredenciales] = useState({
     email: "",
     password: "",
   });
+  const [msgError, setMsgError] = useState("");
 
   const inputHandler = (e) => {
     //Asignación dinámica
@@ -26,9 +29,32 @@ export const Login = () => {
     }));
   };
 
+  const logMe = async () => {
+
+    for(let credencial in credenciales){
+      if(credenciales[credencial] === ""){
+         setMsgError("No has rellenado todos los campos")
+         return;
+      }
+    }
+
+    const fetched = await loginMe(credenciales);
+
+    if (!fetched.success) {
+      setMsgError(fetched.message);
+      return;
+    }
+    const decodificado = decodeToken(fetched.token);
+
+    sessionStorage.setItem("token", fetched);
+    sessionStorage.setItem("user", JSON.stringify(decodificado));
+
+    //redireccion a Home
+  };
+
   return (
     <div className="loginDesign">
-      <pre>{JSON.stringify(credenciales, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(credenciales, null, 2)}</pre> */}
       <CustomInput
         design="inputDesign"
         type="email"
@@ -49,6 +75,10 @@ export const Login = () => {
         placeholder="write your password...."
         functionChange={inputHandler}
       />
+      <div className="loginButton" onClick={logMe}>
+        Log me!
+      </div>
+      <div>{msgError}</div>
     </div>
   );
 };
