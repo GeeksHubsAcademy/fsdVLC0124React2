@@ -10,9 +10,9 @@ export const Login = () => {
   });
 
   const inputHandler = (e) => {
-   //Asignación dinámica
+    //Asignación dinámica
 
-   //Es ilegal modificar el estado en React directamente
+    //Es ilegal modificar el estado en React directamente
 
     //Primero creamos una variable placeholder llamada prevState
     //prevState preserva el estado original, es una copia del original.
@@ -28,12 +28,12 @@ export const Login = () => {
 
   return (
     <div className="loginDesign">
-      <pre >{JSON.stringify(credenciales, null, 2)}</pre>
+      <pre>{JSON.stringify(credenciales, null, 2)}</pre>
       <CustomInput
         design="inputDesign"
-        type="text"
-      //   la clave para que el bindeo funcione es que la propiedad name se llame
-      //   exactamente igual que la propiedad homónima en el hook de estado, ejemplo: credenciales.email
+        type="email"
+        //   la clave para que el bindeo funcione es que la propiedad name se llame
+        //   exactamente igual que la propiedad homónima en el hook de estado, ejemplo: credenciales.email
         name="email"
         value={credenciales.email || ""}
         placeholder="write your email...."
@@ -42,8 +42,8 @@ export const Login = () => {
       <CustomInput
         design="inputDesign"
         type="password"
-         //   la clave para que el bindeo funcione es que la propiedad name se llame
-      //   exactamente igual que la propiedad homónima en el hook de estado, ejemplo: credenciales.password
+        //   la clave para que el bindeo funcione es que la propiedad name se llame
+        //   exactamente igual que la propiedad homónima en el hook de estado, ejemplo: credenciales.password
         name="password"
         value={credenciales.password || ""}
         placeholder="write your password...."
